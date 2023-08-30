@@ -22,6 +22,8 @@ public class Main {
 
         // entity ve ya model package adlari database'de ola table'lar ucun yaradilmis classlar ucundur. Lakin,
         // bean normal classlar ucundur.
+        
+        // **************************************************************************************************************
 
         UserDaoInter userDao = Context.instanceUserDao();
 
