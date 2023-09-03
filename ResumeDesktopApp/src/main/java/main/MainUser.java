@@ -36,6 +36,7 @@ public class MainUser extends javax.swing.JFrame {
         txtAreaProfile.setText(loggedInUser.getProfileDescription());
         txtEmail.setText(loggedInUser.getEmail());
         txtPhone.setText(loggedInUser.getPhone());
+        txtAddress.setText(loggedInUser.getAddress());
 
         Date date = loggedInUser.getBirthdate();
         txtBirthdate.setText(sdf.format(date));
@@ -303,6 +304,7 @@ public class MainUser extends javax.swing.JFrame {
         String profileDescription = txtAreaProfile.getText();
         String email = txtEmail.getText();
         String phone = txtPhone.getText();
+        String address = txtAddress.getText();
         String birthdate = txtBirthdate.getText();
 
         loggedInUser.setName(name);
@@ -310,6 +312,7 @@ public class MainUser extends javax.swing.JFrame {
         loggedInUser.setProfileDescription(profileDescription);
         loggedInUser.setEmail(email);
         loggedInUser.setPhone(phone);
+        loggedInUser.setAddress(address);
         
         try {
             long milliSec = sdf.parse(birthdate).getTime();

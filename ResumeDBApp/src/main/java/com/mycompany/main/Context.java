@@ -4,6 +4,7 @@ import com.mycompany.dao.impl.*;
 import com.mycompany.dao.inter.*;
 
 public class Context {
+    
     public static UserDaoInter instanceUserDao() {
         return new UserDaoImpl();
     }

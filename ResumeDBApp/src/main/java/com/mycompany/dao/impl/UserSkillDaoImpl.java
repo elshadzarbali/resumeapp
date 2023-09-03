@@ -13,7 +13,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserSkillDaoImpl extends ConnectDAO implements UserSkillDaoInter {
+    
     private static UserDaoInter userDao = Context.instanceUserDao();
+    
     private UserSkill getUserSkill(ResultSet rs) throws SQLException {
         int userId = rs.getInt("id");
         int skillId = rs.getInt("skill_id");
@@ -25,6 +27,7 @@ public class UserSkillDaoImpl extends ConnectDAO implements UserSkillDaoInter {
 
         return new UserSkill(null, user, skill, power);
     }
+    
     @Override
     public List<UserSkill> getAllUserSkillByUserId(int userId) {
         String query = "select u.*, us.skill_id, s.name as skill_name, us.power from user_skill us " +
@@ -34,8 +37,7 @@ public class UserSkillDaoImpl extends ConnectDAO implements UserSkillDaoInter {
         try (Connection c = connect()) {
             PreparedStatement pstmt = c.prepareStatement(query);
             pstmt.setInt(1, userId);
-            pstmt.execute();
-            ResultSet rs = pstmt.getResultSet();
+            ResultSet rs = pstmt.executeQuery();
 
             while (rs.next()) {
                 UserSkill userSkill = getUserSkill(rs);

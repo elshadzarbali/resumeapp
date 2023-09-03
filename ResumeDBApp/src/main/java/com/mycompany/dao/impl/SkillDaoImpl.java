@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SkillDaoImpl extends ConnectDAO implements SkillDaoInter {
+    
     private Skill getSkill(ResultSet rs) throws SQLException {
         int id = rs.getInt("id");
         String name = rs.getString("name");
@@ -22,8 +23,7 @@ public class SkillDaoImpl extends ConnectDAO implements SkillDaoInter {
         List<Skill> list = new ArrayList<>();
         try (Connection c = connect()) {
             Statement stmt = c.createStatement();
-            stmt.execute(query);
-            ResultSet rs = stmt.getResultSet();
+            ResultSet rs = stmt.executeQuery(query);
 
             while (rs.next()) {
                 Skill skill = getSkill(rs);

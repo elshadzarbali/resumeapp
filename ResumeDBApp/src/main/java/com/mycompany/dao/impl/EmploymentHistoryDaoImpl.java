@@ -11,13 +11,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EmploymentHistoryDaoImpl extends ConnectDAO implements EmploymentHistoryDaoInter {
+    
     private UserDaoInter userDao = Context.instanceUserDao();
+    
     private EmploymentHistory getEmploymentHistory(ResultSet rs) throws SQLException {
         String header = rs.getString("header");
         Date beginDate = rs.getDate("begin_date");
         Date endDate = rs.getDate("end_date");
         String jobDescription = rs.getString("job_description");
         int userId = rs.getInt("user_id");
+        
         User user = userDao.getById(userId);
 
         return new EmploymentHistory(null, header, beginDate, endDate, jobDescription, user);
@@ -25,13 +28,12 @@ public class EmploymentHistoryDaoImpl extends ConnectDAO implements EmploymentHi
 
     @Override
     public List<EmploymentHistory> getAllEmploymentHistoryByUserId(int userId) {
-        String query = "select *from employment_history where user_id = ?";
+        String query = "select * from employment_history where user_id = ?";
         List<EmploymentHistory> list = new ArrayList<>();
         try (Connection c = connect()) {
             PreparedStatement pstmt = c.prepareStatement(query);
             pstmt.setInt(1, userId);
-            pstmt.execute();
-            ResultSet rs = pstmt.getResultSet();
+            ResultSet rs = pstmt.executeQuery();
 
             while (rs.next()) {
                 EmploymentHistory employmentHistory = getEmploymentHistory(rs);
