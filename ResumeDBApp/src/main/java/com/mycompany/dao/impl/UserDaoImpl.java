@@ -2,14 +2,14 @@ package com.mycompany.dao.impl;
 
 import com.mycompany.entity.Country;
 import com.mycompany.entity.User;
-import com.mycompany.dao.inter.ConnectDAO;
+import com.mycompany.dao.inter.AbstractDAO;
 import com.mycompany.dao.inter.UserDaoInter;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserDaoImpl extends ConnectDAO implements UserDaoInter {
+public class UserDaoImpl extends AbstractDAO implements UserDaoInter {
     
     private User getUser(ResultSet rs) throws SQLException {
         int id = rs.getInt("id");

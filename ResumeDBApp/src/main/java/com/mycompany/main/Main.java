@@ -2,6 +2,7 @@ package com.mycompany.main;
 
 import com.mycompany.dao.inter.*;
 import com.mycompany.entity.Country;
+import com.mycompany.entity.Skill;
 
 import java.util.List;
 
@@ -60,11 +61,11 @@ public class Main {
         // getAll()
 //        List<Skill> list = skillDao.getAll();
 //        list.forEach(System.out::println);
-
+        
         CountryDaoInter countryDao = Context.instanceCountryDao();
 
         // getAll()
-        List<Country> list = countryDao.getAll();
-        list.forEach(System.out::println);
+//        List<Country> list = countryDao.getAll();
+//        list.forEach(System.out::println);
     }
 }

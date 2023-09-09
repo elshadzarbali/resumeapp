@@ -72,13 +72,6 @@ public class EmploymentHistory {
 
     @Override
     public String toString() {
-        return "EmploymentHistory{" +
-                "id=" + id +
-                ", header='" + header + '\'' +
-                ", beginDate=" + beginDate +
-                ", endDate=" + endDate +
-                ", jobDescription='" + jobDescription + '\'' +
-                ", user=" + user +
-                '}';
+        return header;
     }
 }
