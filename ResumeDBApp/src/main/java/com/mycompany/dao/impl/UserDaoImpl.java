@@ -50,6 +50,53 @@ public class UserDaoImpl extends AbstractDAO implements UserDaoInter {
         }
         return list;
     }
+    
+    // for searching users by name or surname or nationalityId. if name, surname
+    // and nationalityId are all null, it returns all users in database.
+    // i create this methos instead of changing getAll() method.
+    // Menim fikrimce, name ve surname deyisenlerinin bos olub olmamasini
+    // burda deyil, web terefde yoxlamaq lazimdir.
+    @Override
+    public List<User> getAllBySearch(String name, String surname, Integer nationalityId) {
+        String query = "select u.*, n.nationality, c.name as birthplace from user u " +
+                "left join country n on u.nationality_id = n.id " +
+                "left join country c on u.birthplace_id = c.id where 1=1";
+        
+        if (name != null && !name.trim().isEmpty()) {
+            query += " and u.name=?";
+        }
+        if (surname != null && !surname.trim().isEmpty()) {
+            query += " and u.surname=?";
+        }
+        if (nationalityId != null) {
+            query += " and u.nationality_id=?";
+        }
+        List<User> list = new ArrayList<>();
+        try (Connection c = connect()) {
+            PreparedStatement pstmt = c.prepareStatement(query);
+            
+            int i = 1;
+            if (name != null && !name.trim().isEmpty()) {
+                pstmt.setString(i++, name);
+            }
+            if (surname != null && !surname.trim().isEmpty()) {
+                pstmt.setString(i++, surname);
+            }
+            if (nationalityId != null) {
+                pstmt.setInt(i, nationalityId);
+            }
+            
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                User u = getUser(rs);
+                list.add(u);
+            }
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
 
     @Override
     public User getById(int userId) {
@@ -107,7 +154,7 @@ public class UserDaoImpl extends AbstractDAO implements UserDaoInter {
     @Override
     public boolean addUser(User u) {
         String query = "insert into user (name, surname, email, phone, profile_description, address, "
-                + "bithdate, birthplace_id, nationality_id) values(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                + "birthdate, birthplace_id, nationality_id) values(?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection c = connect()) {
             PreparedStatement pstmt = c.prepareStatement(query);
             pstmt.setString(1, u.getName());

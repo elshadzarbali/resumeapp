@@ -6,6 +6,7 @@ import java.sql.SQLException;
 
 public abstract class AbstractDAO {
     public Connection connect() throws ClassNotFoundException, SQLException {
+        Class.forName("com.mysql.cj.jdbc.Driver");
         String url = "jdbc:mysql://localhost:3306/resume";
         String username = "root";
         String password = "rootPass";
