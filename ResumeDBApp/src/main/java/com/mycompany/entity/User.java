@@ -7,8 +7,10 @@ public class User {
     private int id;
     private String name;
     private String surname;
+    private String username;
     private String email;
     private String phone;
+    private String password;
     private String profileDescription;
     private String address;
     private Date birthdate;
@@ -20,12 +22,16 @@ public class User {
     public User() {
     }
 
-    public User(int id, String name, String surname, String email, String phone, String profileDescription, String address, Date birthdate, Country birthplace, Country nationality) {
+    public User(int id, String name, String surname, String username, String email,
+            String phone, String password, String profileDescription, String address,
+            Date birthdate, Country birthplace, Country nationality) {
         this.id = id;
         this.name = name;
         this.surname = surname;
+        this.username = username;
         this.email = email;
         this.phone = phone;
+        this.password = password;
         this.profileDescription = profileDescription;
         this.address = address;
         this.birthdate = birthdate;
@@ -57,6 +63,14 @@ public class User {
         this.surname = surname;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
     public String getEmail() {
         return email;
     }
@@ -71,6 +85,14 @@ public class User {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getProfileDescription() {
@@ -123,17 +145,11 @@ public class User {
 
     @Override
     public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", surname='" + surname + '\'' +
-                ", email='" + email + '\'' +
-                ", phone='" + phone + '\'' +
-                ", profileDescription='" + profileDescription + '\'' +
-                ", address='" + address + '\'' +
-                ", birthdate=" + birthdate +
-                ", birthplace=" + birthplace +
-                ", nationality=" + nationality +
-                '}';
+        return "User{" + "id=" + id + ", name=" + name + ", surname=" + surname
+                + ", username=" + username + ", email=" + email + ", phone=" + phone
+                + ", password=" + password + ", profileDescription=" + profileDescription
+                + ", address=" + address + ", birthdate=" + birthdate
+                + ", birthplace=" + birthplace + ", nationality=" + nationality
+                + ", skills=" + skills + '}';
     }
 }
