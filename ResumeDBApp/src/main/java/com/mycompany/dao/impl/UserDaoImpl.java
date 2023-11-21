@@ -109,7 +109,7 @@ public class UserDaoImpl extends AbstractDAO implements UserDaoInter {
     public User findByEmail(String email) {
         String query = "select u.*, n.nationality, c.name as birthplace from user u "
                 + "left join country n on u.nationality_id = n.id "
-                + "left join country c on u.birthplace_id = c.id where u.email=? and u.password=?";
+                + "left join country c on u.birthplace_id = c.id where u.email=?";
 
         User user = null;
 
