@@ -1,5 +1,6 @@
 package com.mycompany.dao.impl;
 
+import at.favre.lib.crypto.bcrypt.BCrypt;
 import com.mycompany.entity.Country;
 import com.mycompany.entity.User;
 import com.mycompany.dao.inter.AbstractDAO;
@@ -10,6 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserDaoImpl extends AbstractDAO implements UserDaoInter {
+    
+    // for crypting password
+    private BCrypt.Hasher crypt = BCrypt.withDefaults();
 
     private User getUser(ResultSet rs) throws SQLException {
         int id = rs.getInt("id");
@@ -102,7 +106,7 @@ public class UserDaoImpl extends AbstractDAO implements UserDaoInter {
     }
 
     @Override
-    public User findByEmailAndPwd(String email, String password) {
+    public User findByEmail(String email) {
         String query = "select u.*, n.nationality, c.name as birthplace from user u "
                 + "left join country n on u.nationality_id = n.id "
                 + "left join country c on u.birthplace_id = c.id where u.email=? and u.password=?";
@@ -112,7 +116,6 @@ public class UserDaoImpl extends AbstractDAO implements UserDaoInter {
         try (Connection c = connect()) {
             PreparedStatement pstmt = c.prepareStatement(query);
             pstmt.setString(1, email);
-            pstmt.setString(2, password);
             ResultSet rs = pstmt.executeQuery();
 
             if (rs.next()) {
@@ -176,7 +179,7 @@ public class UserDaoImpl extends AbstractDAO implements UserDaoInter {
             return false;
         }
     }
-
+    
     @Override
     public boolean addUser(User u) {
         String query = "insert into user (name, surname, username, email, phone, password, "
@@ -195,7 +198,7 @@ public class UserDaoImpl extends AbstractDAO implements UserDaoInter {
             pstmt.setString(3, u.getUsername());
             pstmt.setString(4, u.getEmail());
             pstmt.setString(5, u.getPhone());
-            pstmt.setString(6, u.getPassword());
+            pstmt.setString(6, crypt.hashToString(12, u.getPassword().toCharArray()));
             pstmt.setString(7, u.getProfileDescription());
             pstmt.setString(8, u.getAddress());
             pstmt.setDate(9, u.getBirthdate());
@@ -211,7 +214,7 @@ public class UserDaoImpl extends AbstractDAO implements UserDaoInter {
             return false;
         }
     }
-
+    
     @Override
     public boolean isUsernameExists(String username) {
         String query = "SELECT COUNT(*) FROM user WHERE username = ?";

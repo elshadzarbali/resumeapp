@@ -7,7 +7,7 @@ import java.util.List;
 public interface UserDaoInter {
     List<User> getAll();
     List<User> getAllBySearch(String name, String surname, Integer nationalityId);
-    User findByEmailAndPwd(String email, String password);
+    User findByEmail(String email);
     User getById(int id);
     boolean updateUser(User u);
     boolean removeUser(int id);
